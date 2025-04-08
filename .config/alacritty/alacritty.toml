@@ -1,0 +1,25 @@
+[window]
+startup_mode = "Maximized"
+
+[colors.normal]
+black = "#1B1D1E"
+red = "#FF0000"
+green = "#82B414"
+yellow = "#FD971F"
+blue = "#8C54FE"
+magenta = "#F92672"
+cyan = "#56C2D6"
+white = "#CCCCC6"
+
+[colors.bright]
+black = "#505354"
+red = "#FF4B21"
+green = "#B6E354"
+yellow = "#FEED6C"
+blue = "#9E6FFE"
+magenta = "#FF5995"
+cyan = "#61D6D6"
+white = "#F8F8F2"
+
+[selection]
+save_to_clipboard = true
