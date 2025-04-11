@@ -33,51 +33,71 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- setup mason
-require("mason").setup({
+require("mason").setup()
+require('mason-lspconfig').setup({
+    automatic_installation = true,
     ensure_installed = {
         'clangd',
-        'html-lsp',
-        'jdtls',
-        'rust_analyzer',
         'omnisharp',
         'lua_ls',
+        'jdtls',
+        'html',
+        'pylsp',
     },
-})
-require("mason-lspconfig").setup_handlers({
-
-    -- fallback for undefined LS
-    function(server_name)
-        require("lspconfig")[server_name].setup {
-            on_attach = on_attach,
-            capabilities = capabilities
-        }
-    end,
-
-    -- LUA
-    ["lua_ls"] = function()
-        require('lazydev').setup()
-        require('lspconfig').lua_ls.setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            settings = {
-                Lua = {
-                    workspace = { checkThirdParty = false },
-                    telemetry = { enable = false },
-                },
+    handlers = {
+        -- fallback for undefined LS
+        function(server_name)
+            require("lspconfig")[server_name].setup {
+                on_attach = on_attach,
+                capabilities = capabilities
             }
-        }
-    end,
+        end,
 
-    -- C#
-    ["omnisharp"] = function()
-        require('lspconfig').omnisharp.setup {
-            filetypes = { "cs", "vb" },
-            root_dir = require('lspconfig').util.root_pattern("*.csproj", "*.sln"),
-            on_attach = on_attach,
-            capabilities = capabilities,
-            enable_roslyn_analyzers = true,
-            analyze_open_documents_only = true,
-            enable_import_completion = true,
-        }
-    end,
+        -- LUA
+        ["lua_ls"] = function()
+            require('lazydev').setup()
+            require('lspconfig').lua_ls.setup {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {
+                    Lua = {
+                        workspace = { checkThirdParty = false },
+                        telemetry = { enable = false },
+                    },
+                }
+            }
+        end,
+
+        -- C#
+        ["omnisharp"] = function()
+            require('lspconfig').omnisharp.setup {
+                filetypes = { "cs", "vb" },
+                root_dir = require('lspconfig').util.root_pattern("*.csproj", "*.sln"),
+                on_attach = on_attach,
+                capabilities = capabilities,
+                enable_roslyn_analyzers = true,
+                analyze_open_documents_only = true,
+                enable_import_completion = true,
+            }
+        end,
+
+        -- C, C++
+        ["clangd"] = function()
+            require('lspconfig').clangd.setup {
+                filetypes = { "c", "cpp", "h", "hpp", "inc"},
+                root_dir = require('lspconfig').util.root_pattern("*.clangd", "compile_commands.json"),
+                on_attach = on_attach,
+                capabilities = capabilities,
+            }
+        end,
+
+        -- Java
+        ["jdtls"] = function()
+            require('lspconfig').jdtls.setup {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                root_dir = require('lspconfig').util.root_pattern("pom.xml", "build.gradle", ".git"),
+            }
+        end,
+    },
 })
