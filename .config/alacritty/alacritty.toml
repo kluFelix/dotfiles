@@ -23,3 +23,6 @@ white = "#F8F8F2"
 
 [selection]
 save_to_clipboard = true
+
+[font]
+size = 14
