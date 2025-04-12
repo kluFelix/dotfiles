@@ -23,6 +23,12 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 
+-- prevent diagnostic signs from disappearing when entering insert mode
+-- (anoying when switching between insert and normal mode)
+-- https://www.reddit.com/r/neovim/comments/17wwels/lsp_diagnostic_signs_disappear_when_entering/
+vim.diagnostic.config {
+    update_in_insert = true;
+}
 
 -----------------
 -- Keybindings --
