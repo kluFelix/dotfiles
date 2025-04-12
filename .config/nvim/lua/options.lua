@@ -23,6 +23,13 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 
+-- Some settings for the diagnostic signs
+-- https://www.reddit.com/r/neovim/comments/17wwels/lsp_diagnostic_signs_disappear_when_entering/
+vim.opt.signcolumn = "number"
+vim.diagnostic.config {
+    update_in_insert = true;
+}
+
 
 -----------------
 -- Keybindings --
