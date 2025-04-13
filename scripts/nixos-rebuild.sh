@@ -5,8 +5,16 @@
 # A rebuild script that commits on a successful build
 set -e
 
+
+
 # cd to your config dir
 pushd /home/felix/.config/nixos/
+
+# Make sure the configs are up to date
+git pull origin main
+
+# Edit your config
+$EDITOR /home/felix/.config/nixos/.
 
 # Early return if no changes were detected (thanks @singiamtel!)
 if git diff --quiet '*.nix'; then
@@ -32,6 +40,7 @@ current=$(nixos-rebuild list-generations | grep current)
 
 # Commit all changes witih the generation metadata
 git commit -am "$current"
+git push
 
 # Back to where you were
 popd
