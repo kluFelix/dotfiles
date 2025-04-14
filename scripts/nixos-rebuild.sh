@@ -41,9 +41,11 @@ sudo nixos-rebuild switch &>nixos-switch.log || (cat nixos-switch.log | grep --c
 
 # Get current generation metadata
 current=$(nixos-rebuild list-generations | grep current)
+# Get the system name
+system_name=$(hostname)
 
 # Commit all changes witih the generation metadata
-git commit -am "$current"
+git commit -am "$system_name - $current"
 git push
 
 # Back to where you were
