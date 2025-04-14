@@ -5,13 +5,17 @@
 # A rebuild script that commits on a successful build
 set -e
 
-
-
 # cd to your config dir
 pushd /home/felix/.config/nixos/
 
-# Make sure the configs are up to date
-git pull origin main
+ping -c 1 192.168.112.199 > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    # Make sure the configs are up to date
+    git pull origin main
+else
+    echo "Git server not reachable!"
+    echo "Continue without pulling changes"
+fi
 
 # Edit your config
 $EDITOR /home/felix/.config/nixos/.
