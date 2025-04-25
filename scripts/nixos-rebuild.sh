@@ -8,20 +8,20 @@ set -e
 # cd to your config dir
 pushd /home/felix/.config/nixos/
 
-ping -c 1 192.168.112.199 > /dev/null 2>&1
-if [ $? -eq 0 ]; then
+if [ "$1" == "o" ]; then
+    echo "Running offline (no pushing and pulling)"
+else
+echo test
+    echo "Use '$0 o' to run offline without pulling and pushing"
     # Make sure the configs are up to date
     git pull origin main
-else
-    echo "Git server not reachable!"
-    echo "Continue without pulling changes"
 fi
 
 # Edit your config
 $EDITOR /home/felix/.config/nixos/.
 
-# Early return if no changes were detected (thanks @singiamtel!)
-if git diff --quiet '*.nix'; then
+# Early return if no changes were detected
+if git diff --quiet '*.nix' ; then
     echo "No changes detected, exiting."
     popd
     exit 0
