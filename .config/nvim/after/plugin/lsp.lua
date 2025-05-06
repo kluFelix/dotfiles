@@ -84,8 +84,7 @@ require('mason-lspconfig').setup({
         -- C, C++
         ["clangd"] = function()
             require('lspconfig').clangd.setup {
-                filetypes = { "c", "cpp", "h", "hpp", "inc"},
-                root_dir = require('lspconfig').util.root_pattern("*.clangd", "compile_commands.json"),
+                cmd = { "clangd", "--enable-config" },
                 on_attach = on_attach,
                 capabilities = capabilities,
             }
