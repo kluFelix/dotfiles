@@ -43,6 +43,7 @@ require('mason-lspconfig').setup({
         'jdtls',
         'html',
         'pylsp',
+        'intelephense',
     },
     handlers = {
         -- fallback for undefined LS
