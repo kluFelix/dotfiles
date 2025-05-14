@@ -35,8 +35,15 @@ git diff -U0 '*.nix'
 
 echo "NixOS Rebuilding..."
 
-# Rebuild, output simplified errors, log trackebacks
-sudo nixos-rebuild switch &>nixos-switch.log || (cat nixos-switch.log | grep --color error && exit 1)
+if [ $XDG_SESSION_DESKTOP != 'phosh' ] ; then
+    # Rebuild, output simplified errors, log trackebacks
+    sudo nixos-rebuild switch &>nixos-switch.log || (cat nixos-switch.log | grep --color error && exit 1)
+else
+    # Rebuild without switching! That seems to cause crashes on phosh
+    echo -e "\e[31mYou're using phosh. You will need to reboot after rebuild is done!\e[0m"
+    sudo nixos-rebuild boot &>nixos-switch.log || (cat nixos-switch.log | grep --color error && exit 1)
+fi
+
 
 # Get current generation metadata
 current=$(nixos-rebuild list-generations | grep current)
