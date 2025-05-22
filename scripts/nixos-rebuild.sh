@@ -35,7 +35,7 @@ git diff -U0 '*.nix'
 
 echo "NixOS Rebuilding..."
 
-if [ "$XDG_SESSION_DESKTOP" != 'phosh' ] && ![ test -z "$XDG_SESSION_DESKTOP" ]; then
+if [ "$XDG_SESSION_DESKTOP" != 'phosh' ] || [ -z "$XDG_SESSION_DESKTOP" ]; then
     # Rebuild, output simplified errors, log trackebacks
     sudo nixos-rebuild switch &>nixos-switch.log || (cat nixos-switch.log | grep --color error && exit 1)
 else
