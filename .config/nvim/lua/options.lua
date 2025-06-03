@@ -26,10 +26,11 @@ vim.opt.undofile = true
 -- Some settings for the diagnostic signs
 -- https://www.reddit.com/r/neovim/comments/17wwels/lsp_diagnostic_signs_disappear_when_entering/
 vim.opt.signcolumn = "number"
+vim.diagnostic.enable = true
 vim.diagnostic.config {
+    virtual_lines = true,
     update_in_insert = true;
 }
-
 
 -----------------
 -- Keybindings --
