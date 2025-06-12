@@ -9,5 +9,3 @@ cd /etc/nixos
 sudo -u felix git pull
 
 nixos-rebuild switch --upgrade --print-build-logs
-
-sudo -u felix git push origin main

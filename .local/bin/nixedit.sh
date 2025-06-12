@@ -13,7 +13,7 @@ if [ "$1" == "o" ]; then
 else
     echo "Use '$0 o' to run offline without pulling and pushing"
     # Make sure the configs are up to date
-    git pull origin main
+    git pull
 fi
 
 # Edit your config
