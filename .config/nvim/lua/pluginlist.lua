@@ -55,6 +55,9 @@ return {
     -- UndoTree
     "mbbill/undotree",
 
+    -- Vim Fugitive - Git integration
+    "tpope/vim-fugitive",
+
     -- Git Signs (diff indicators)
     "lewis6991/gitsigns.nvim",
 
