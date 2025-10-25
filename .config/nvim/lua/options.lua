@@ -32,7 +32,7 @@ vim.opt.undofile = true
 -- Some settings for the diagnostic signs
 -- https://www.reddit.com/r/neovim/comments/17wwels/lsp_diagnostic_signs_disappear_when_entering/
 -- Use <C-w>d to show the diagnostic message in a floating window
-vim.opt.signcolumn = "number"
+-- vim.opt.signcolumn = "number"
 vim.diagnostic.enable = true
 vim.diagnostic.config {
     virtual_lines = false, -- This can quickly spamm the entire window use <C-w>d instead
