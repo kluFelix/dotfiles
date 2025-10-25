@@ -55,6 +55,9 @@ return {
     -- UndoTree
     "mbbill/undotree",
 
+    -- Git Signs (diff indicators)
+    "lewis6991/gitsigns.nvim",
+
     -- Vim Be Good
     "ThePrimeagen/vim-be-good",
 }
