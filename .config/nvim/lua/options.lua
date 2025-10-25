@@ -10,6 +10,11 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 
+-- per-file-type overrides
+local ft_options = {
+    nix = { shiftwidth = 2, tabstop = 2, softtabstop = 2 },
+}
+
 vim.opt.smartindent = true
 vim.opt.autoindent = true
 
@@ -31,6 +36,19 @@ vim.diagnostic.config {
     virtual_lines = true,
     update_in_insert = true;
 }
+
+-- For automatic filetype recognition
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("IndentSettings", { clear = true }),
+  callback = function(args)
+    local opts = ft_options[vim.bo[args.buf].filetype]
+    if opts then
+      for k, v in pairs(opts) do
+        vim.bo[args.buf][k] = v
+      end
+    end
+  end,
+})
 
 -----------------
 -- Keybindings --
