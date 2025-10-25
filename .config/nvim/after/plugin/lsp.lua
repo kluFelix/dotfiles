@@ -44,6 +44,7 @@ require('mason-lspconfig').setup({
         'html',
         'pylsp',
         'intelephense',
+        'nil_ls',
     },
     handlers = {
         -- fallback for undefined LS
@@ -91,12 +92,11 @@ require('mason-lspconfig').setup({
             }
         end,
 
-        -- Java
-        ["jdtls"] = function()
-            require('lspconfig').jdtls.setup {
+        -- Nix
+        ["nil_ls"] = function()
+            require("lspconfig").nil_ls.setup {
                 on_attach = on_attach,
-                capabilities = capabilities,
-                root_dir = require('lspconfig').util.root_pattern("pom.xml", "build.gradle", ".git"),
+                capabilities = capabilities
             }
         end,
     },
