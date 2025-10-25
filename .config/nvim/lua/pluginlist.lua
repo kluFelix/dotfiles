@@ -6,6 +6,9 @@ return {
         priority = 1000,
         config = function()
             vim.cmd("colorscheme monokai-nightasty")
+            for _, group in ipairs({ "Normal", "NormalFloat", "NormalNC", "SignColumn", "MsgArea" }) do
+                vim.api.nvim_set_hl(0, group, { bg = "none" })
+            end
         end
     },
 
