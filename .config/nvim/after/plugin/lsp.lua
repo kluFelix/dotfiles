@@ -101,11 +101,8 @@ require('mason-lspconfig').setup({
                 root_dir = require("lspconfig.util").root_pattern("flake.nix"),
                 -- nil-specific settings
                 settings = {
-                    nix = {
-                        flake = {
-                            -- auto-fetch missing flake inputs on start-up
-                            autoArchive = true,
-                        };
+                    ["nil"] = {
+                        autoArchive = true -- does not seem to work as intended
                     },
                 },
             }
