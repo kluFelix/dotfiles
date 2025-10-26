@@ -35,6 +35,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- setup mason
 require("mason").setup()
 require('mason-lspconfig').setup({
+    automatic_enable = true,
     automatic_installation = true,
     ensure_installed = {
         'clangd',
@@ -51,7 +52,7 @@ require('mason-lspconfig').setup({
         function(server_name)
             require("lspconfig")[server_name].setup {
                 on_attach = on_attach,
-                capabilities = capabilities
+                capabilities = capabilities,
             }
         end,
 
@@ -96,7 +97,17 @@ require('mason-lspconfig').setup({
         ["nil_ls"] = function()
             require("lspconfig").nil_ls.setup {
                 on_attach = on_attach,
-                capabilities = capabilities
+                capabilities = capabilities,
+                root_dir = require("lspconfig.util").root_pattern("flake.nix"),
+                -- nil-specific settings
+                settings = {
+                    nix = {
+                        flake = {
+                            -- auto-fetch missing flake inputs on start-up
+                            autoArchive = true,
+                        };
+                    },
+                },
             }
         end,
     },
