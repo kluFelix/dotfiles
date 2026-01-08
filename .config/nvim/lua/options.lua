@@ -28,6 +28,9 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 
+-- Spell checking
+vim.opt.spell = true
+vim.opt.spelllang = { "en", "de_de" }
 
 -- Some settings for the diagnostic signs
 -- https://www.reddit.com/r/neovim/comments/17wwels/lsp_diagnostic_signs_disappear_when_entering/
