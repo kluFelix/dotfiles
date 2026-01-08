@@ -43,7 +43,7 @@ vim.diagnostic.config {
 }
 
 
--- For automatic filetype recognition
+-- For automatic file-type recognition
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("IndentSettings", { clear = true }),
   callback = function(args)
@@ -55,6 +55,9 @@ vim.api.nvim_create_autocmd("FileType", {
     end
   end,
 })
+
+-- force nvim to use OSC 52 provider
+vim.g.clipboard = 'osc52'
 
 -----------------
 -- Keybindings --
