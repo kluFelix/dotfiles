@@ -7,6 +7,21 @@ vim.lsp.config('clangd', {
     },
 })
 
+-- Go LSP configuration (without Mason)
+vim.lsp.enable('gopls')
+vim.lsp.config('gopls', {
+    cmd = {"gopls"},
+    settings = {
+        gopls = {
+            analyses = {
+                unusedparams = true,
+            },
+            staticcheck = true,
+            gofumpt = true,
+        },
+    },
+})
+
 --[[
 require('lazydev').setup()
 vim.lsp.enable('lua_ls')

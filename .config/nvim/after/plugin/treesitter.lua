@@ -7,6 +7,7 @@ require('nvim-treesitter.configs').setup {
         'c',
         'nix',
         'html',
+        'go',
     },
     auto_install = false,
     highlight = { enable = true },
