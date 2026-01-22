@@ -1,0 +1,1 @@
+/home/felix/projects/gml-tools/civitai.sh
