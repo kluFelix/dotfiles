@@ -1,5 +1,6 @@
 # Nvim plugin versions
 .config/nvim/lazy-lock.json
+.local
 
 # Dictionaries for nvim spell check (are downloaded automatically when missing)
 *.spl
