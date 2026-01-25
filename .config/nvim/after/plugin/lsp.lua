@@ -49,6 +49,7 @@ vim.lsp.enable({
 
 -- requires "clang-tools"
 vim.lsp.config('clangd', {
+    filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
     cmd = {
         "clangd",
         "--query-driver=/nix/store/*/bin/clang*",
@@ -57,6 +58,7 @@ vim.lsp.config('clangd', {
 
 -- requires "gopls"
 vim.lsp.config('gopls', {
+    filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
     cmd = {"gopls"},
     settings = {
         gopls = {
@@ -71,6 +73,7 @@ vim.lsp.config('gopls', {
 
 -- requires "nil"
 vim.lsp.config('nil', {
+    filetypes = { 'nix' },
     cmd = {'nil'},
     settings = {
         ['nil'] = {
@@ -86,8 +89,9 @@ vim.lsp.config('nil', {
 -- Setup lazydev
 require('lazydev').setup()
 
--- requires "lua_ls"
+-- requires "lua_lanugage-server"
 vim.lsp.config('lua_ls', {
+    filetypes = { 'lua' },
     cmd = { 'lua-language-server' },
     on_attach = on_attach,
     capabilities = capabilities,
