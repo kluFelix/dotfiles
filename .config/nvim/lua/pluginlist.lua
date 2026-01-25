@@ -12,9 +12,7 @@ return {
         end
     },
 
-    -- Mason and LSP
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    -- LSP
     "neovim/nvim-lspconfig",
 
     -- lazydev configures LuaLS for editing Neovim config
