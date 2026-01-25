@@ -13,6 +13,8 @@ vim.opt.expandtab = true
 -- per-file-type overrides
 local ft_options = {
     nix = { shiftwidth = 2, tabstop = 2, softtabstop = 2 },
+    lua = { shiftwidth = 2, tabstop = 2, softtabstop = 2 },
+    json = { shiftwidth = 2, tabstop = 2, softtabstop = 2 },
 }
 
 vim.opt.smartindent = true
