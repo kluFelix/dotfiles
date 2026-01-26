@@ -1,20 +1,13 @@
 ### NeoVim
 
-Mason requirements  
+### LSP
 
-- gcc  
-- unzip  
-- nodejs  
+For NeoVim's LSP settings to work you actually need the necessary language servers installed on your system (or in a development shell).
 
-On NixOS you also need to enable dynamic binaries by adding the following to you `configuration.nix`  
-
-```nix
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    # Add any missing dynamic libraries for unpackaged programs
-    # here, NOT in environment.systemPackages
-  ];
-```
+- c(++) requires `clangd`  
+- go requires `gopl`  
+- lua requires `lus-language-server`  
+- nix requires `nil`  
 
 #### Keybindings  
 
