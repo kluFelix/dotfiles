@@ -1,0 +1,57 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "plan",
+  "disabled_providers": ["opencode"],
+  "provider": {
+    "llama.cpp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp (local)",
+      "options": {
+        "baseURL": "http://192.168.112.200:11434"
+      },
+      "models": {
+        "Devstral-Small-2 24b 128k": {
+          "name": "Devstral-Small-2",
+          "limit": {
+            "context": 100000,
+            "output": 32768
+          }
+        },
+        "Qwen3.5-35b-a3b 100k reasoning": {
+          "name": "Qwen3.5-100k",
+          "limit": {
+            "context": 100000,
+            "output": 32768
+          }
+        }
+      }
+    }
+  },
+  "mcp": {
+    "SearXNG": {
+      "type": "local",
+      "command": ["nix", "shell", "nixpkgs#nodejs", "--command", "npx", "-y", "mcp-searxng"],
+      "enabled": true,
+      "environment": {
+        "SEARXNG_URL": "http://192.168.112.200:8888"
+      }
+    },
+    "NixOS": {
+      "type": "local",
+      "command": ["nix", "run", "github:utensils/mcp-nixos", "--"],
+      "enabled": true,
+      "environment": {
+      }
+    }
+  },
+  "permission": {
+    "edit": "allow",
+    "bash": "allow",
+    "webfetch": "deny"
+  },
+  "tools": {
+    "write": true,
+    "bash": true,
+    "webfetch": false
+  }
+}
