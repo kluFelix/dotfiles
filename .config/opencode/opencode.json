@@ -39,7 +39,7 @@
     "NixOS": {
       "type": "local",
       "command": ["nix", "run", "github:utensils/mcp-nixos", "--"],
-      "enabled": true,
+      "enabled": false,
       "environment": {
       }
     }
@@ -52,6 +52,26 @@
   "tools": {
     "write": true,
     "bash": true,
-    "webfetch": false
+    "webfetch": false,
+    "question": false,
+    "list": false,
+    "skill": false,
+    "todowrite": false,
+    "todoread": false
+  },
+
+  "agent": {
+    "general": {
+      "mode": "subagent",
+      "tools": {
+        "SearXNG_*": true
+      }
+    },
+    "explore": {
+      "mode": "subagent",
+      "tools": {
+        "SearXNG_*": true
+      }
+    }
   }
 }

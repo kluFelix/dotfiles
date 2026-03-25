@@ -4,9 +4,9 @@
 
 For NeoVim's LSP settings to work you actually need the necessary language servers installed on your system (or in a development shell).
 
-- c(++) requires `clangd`  
+- c(++) requires `clang`(`d`)  
 - go requires `gopls`  
-- lua requires `lus-language-server`  
+- lua requires `lua-language-server`  
 - nix requires `nil`  
 
 #### Keybindings  
