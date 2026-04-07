@@ -30,6 +30,13 @@
             "context": 262144,
             "output": 32768
           }
+        },
+        "Gemma4 26b-a4b 256k reasoning": {
+          "name": "Gemma4 26b-a4b 256k reasoning",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
         }
       }
     }
