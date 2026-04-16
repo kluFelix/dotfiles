@@ -18,7 +18,7 @@
           }
         },
         "Qwen3.6-35b-a3b 128k reasoning": {
-          "name": "Qwen3.6 35b-a3b - 100k",
+          "name": "Qwen3.6 35b-a3b - 128k",
           "limit": {
             "context": 131072,
             "output": 32768
