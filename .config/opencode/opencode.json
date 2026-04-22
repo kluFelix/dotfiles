@@ -31,15 +31,15 @@
             "output": 32768
           }
         },
-        "Qwen3.5-27b 100k reasoning": {
-          "name": "Qwen3.5 27b - 100k",
+        "Qwen3.6-27b 128k reasoning": {
+          "name": "Qwen3.6 27b - 128k",
           "limit": {
-            "context": 100000,
+            "context": 131072,
             "output": 32768
           }
         },
-        "Qwen3.5-27b 256k reasoning": {
-          "name": "Qwen3.5 27b - 256k",
+        "Qwen3.6-27b 256k reasoning": {
+          "name": "Qwen3.6 27b - 256k",
           "limit": {
             "context": 262144,
             "output": 32768
