@@ -1,4 +1,4 @@
-export const GemmaThinkPlugin = async () => {
+export const server = async () => {
   return {
     "experimental.chat.messages.transform": async (_input, output) => {
       const messages = output.messages;
