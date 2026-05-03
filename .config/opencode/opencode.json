@@ -19,6 +19,10 @@
         },
         "Qwen3.6-35b-a3b 128k reasoning": {
           "name": "Qwen3.6 35b-a3b - 128k",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
           "limit": {
             "context": 131072,
             "output": 32768
@@ -26,6 +30,10 @@
         },
         "Qwen3.6-35b-a3b 256k reasoning": {
           "name": "Qwen3.6 35b-a3b - 256k",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
           "limit": {
             "context": 262144,
             "output": 32768
@@ -33,6 +41,10 @@
         },
         "Qwen3.6-27b 128k reasoning": {
           "name": "Qwen3.6 27b - 128k",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
           "limit": {
             "context": 131072,
             "output": 32768
@@ -40,6 +52,10 @@
         },
         "Qwen3.6-27b 256k reasoning": {
           "name": "Qwen3.6 27b - 256k",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
           "limit": {
             "context": 262144,
             "output": 32768
@@ -47,6 +63,10 @@
         },
         "Gemma4 26b-a4b 256k reasoning": {
           "name": "Gemma4 26b-a4b 256k reasoning",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
           "limit": {
             "context": 262144,
             "output": 32768
