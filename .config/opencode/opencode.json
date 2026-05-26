@@ -71,6 +71,17 @@
             "context": 262144,
             "output": 32768
           }
+        },
+        "Gemma4 31b 256k reasoning": {
+          "name": "Gemma4 31b 256k reasoning",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
         }
       }
     }
