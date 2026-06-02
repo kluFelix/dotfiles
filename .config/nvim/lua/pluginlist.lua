@@ -12,9 +12,6 @@ return {
         end
     },
 
-    -- LSP
-    "neovim/nvim-lspconfig",
-
     -- lazydev configures LuaLS for editing Neovim config
     {
         "folke/lazydev.nvim",
@@ -38,13 +35,6 @@ return {
 
             "hrsh7th/cmp-nvim-lsp",
         },
-    },
-
-    -- Treesitter "parser generator tool to build syntax tree"
-    -- -> better syntax highlighting
-    {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
     },
 
     -- Telescope (extendeble fuzzy finder)
