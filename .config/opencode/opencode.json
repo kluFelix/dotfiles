@@ -20,24 +20,6 @@
         "baseURL": "http://192.168.112.200:11434"
       },
       "models": {
-        "Devstral-Small-2 24b 256k": {
-          "name": "Devstral-Small-2 24b - 256k",
-          "limit": {
-            "context": 262144,
-            "output": 32768
-          }
-        },
-        "Qwen3.6-35b-a3b 128k reasoning": {
-          "name": "Qwen3.6 35b-a3b - 128k",
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "limit": {
-            "context": 131072,
-            "output": 32768
-          }
-        },
         "Qwen3.6-35b-a3b 256k reasoning": {
           "name": "Qwen3.6 35b-a3b - 256k",
           "modalities": {
@@ -46,17 +28,6 @@
           },
           "limit": {
             "context": 262144,
-            "output": 32768
-          }
-        },
-        "Qwen3.6-27b 128k reasoning": {
-          "name": "Qwen3.6 27b - 128k",
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "limit": {
-            "context": 131072,
             "output": 32768
           }
         },
@@ -71,8 +42,8 @@
             "output": 32768
           }
         },
-        "Gemma4 26b-a4b 256k reasoning": {
-          "name": "Gemma4 26b-a4b 256k reasoning",
+        "Qwen3.5-122b-a10b 256k reasoning": {
+          "name": "Qwen3.5 122b-a10b - 256k",
           "modalities": {
             "input": ["text", "image"],
             "output": ["text"]
