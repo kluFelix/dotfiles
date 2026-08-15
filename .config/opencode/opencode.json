@@ -48,6 +48,26 @@
             "input": ["text", "image"],
             "output": ["text"]
           },
+          "variants": {
+            "xhigh": {
+              "name": "Max Reasoning (xhigh)",
+              "body": {
+                "reasoning_effort": "xhigh"
+              }
+            },
+            "med": {
+              "name": "Balanced (medium)",
+              "body": {
+                "reasoning_effort": "medium"
+              }
+            },
+            "low": {
+              "name": "Fast (low)",
+              "body": {
+                "reasoning_effort": "low"
+              }
+            }
+          },
           "limit": {
             "context": 262144,
             "output": 32768
