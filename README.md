@@ -68,7 +68,6 @@ Keybindings (`prefix` is the default `Ctrl-b`):
 - Markdown tables auto-format with `gq` / `=` (`lua/mdformat.lua`)
 - `:G` (fugitive status) opens in a vertical split when there's room
 - Database client via [vim-dadbod](https://github.com/tpope/vim-dadbod) + [dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui): `:DBUI` (or `<leader>db`) opens the browser, `<leader>dc` adds a connection. Connections are saved to `.config/nvim/db_ui/` as JSON — **don't commit those files** (they can hold credentials).
-- Treesitter drives indentation for `htmlangular` and `typescript` (`after/plugin/treesitter.lua`); parser installation is explicit, not `auto_install`.
 - The clipboard uses OSC 52
 - Spell check is on for `en` + `de_de`.
 
