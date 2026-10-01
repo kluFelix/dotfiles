@@ -1,0 +1,11 @@
+[core]
+	autocrlf = input
+
+[alias]
+    lt = log --graph --oneline --all --color=always -30
+
+# Personal and machine-specific settings (identity, internal GitLab CA,
+# credential helper) are intentionally NOT stored here. Copy
+# .gitconfig.local.example to ~/.gitconfig.local and fill it in.
+[include]
+	path = ~/.gitconfig.local

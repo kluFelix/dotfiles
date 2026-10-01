@@ -47,3 +47,11 @@ cmp.setup {
         { name = 'luasnip' },
     },
 }
+
+-- SQL buffers: use dadbod's schema/table completion instead of the LSP
+cmp.setup.filetype({ 'sql', 'mysql', 'plsql' }, {
+    sources = {
+        { name = 'vim-dadbod-completion' },
+        { name = 'luasnip' },
+    },
+})

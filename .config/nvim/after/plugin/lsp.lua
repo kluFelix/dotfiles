@@ -45,6 +45,10 @@ vim.lsp.enable({
   'gopls',
   'nil',
   'lua_ls',
+  'ts_ls',
+  'angularls',
+  'cssls',
+  'html',
 })
 
 -- requires "clang-tools"
@@ -106,3 +110,46 @@ vim.lsp.config('lua_ls', {
   },
 })
 
+---- Type Script Stuff ----
+
+-- requires "typescript-language-server"
+vim.lsp.config('ts_ls', {
+  filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
+  cmd = { 'typescript-language-server', '--stdio' },
+  on_attach = on_attach,
+  settings = {
+    typescript = {
+      format = { enable = false },
+      completeFunctionCalls = true,
+    },
+    javascript = {
+      format = { enable = false },
+    },
+  },
+})
+
+-- requires "angular-language-server"
+vim.lsp.config('angularls', {
+  filetypes = { 'html', 'typescript', 'typescriptreact' },
+  cmd = { 'angular-language-server', '--stdio' },
+  on_attach = on_attach,
+  settings = {
+    angular = {
+      ngTypeCheck = false,
+    },
+  },
+})
+
+-- requires "vscode-css-languageserver-bin"
+vim.lsp.config('cssls', {
+  filetypes = { 'css', 'scss', 'less' },
+  cmd = { 'vscode-css-languageserver-bin' },
+  on_attach = on_attach,
+})
+
+-- requires "vscode-html-language-server"
+vim.lsp.config('html', {
+  filetypes = { 'html' },
+  cmd = { 'vscode-html-language-server', '--stdio' },
+  on_attach = on_attach,
+})

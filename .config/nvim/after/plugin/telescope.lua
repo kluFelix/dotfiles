@@ -1,4 +1,13 @@
-require('telescope').setup()
+require('telescope').setup({
+  defaults = {
+    respect_gitignore = false,
+    file_ignore_patterns = {
+      'node_modules/',
+      'dist/',
+      '.angular/',
+    },
+  },
+})
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })

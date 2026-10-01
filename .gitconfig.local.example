@@ -1,0 +1,26 @@
+# Personal + machine-specific git config. NOT committed (git-ignored, chmod 600).
+# Copy this to ~/.gitconfig.local and fill in your own values:
+#
+#   cp ~/.gitconfig.local.example ~/.gitconfig.local
+#
+# The tracked ~/.gitconfig pulls this file in via [include].
+
+[user]
+	email = you@example.com
+	name = Your Name
+
+# A credential helper that does not write to disk is the safe default. Use your
+# platform's keychain instead if you have one.
+[credential]
+	helper = cache --timeout=86400
+# helper = /usr/local/bin/git-credential-wincred   # WSL, via Windows Credential Manager
+# helper = osxkeychain                             # macOS
+
+# Per-host settings for a server you do not want named in a public repo: a
+# private GitLab/GitHub Enterprise instance behind its own CA, a work account, etc.
+# Kept commented so nobody ends up wired to someone else's cert store.
+# [http "https://git.example.internal"]
+# 	sslCAInfo = /home/you/.certs/git-example.internal.crt
+# 	proxy = socks5h://127.0.0.1:1080
+# [credential "https://git.example.internal"]
+# 	helper = /path/to/git-credential-secretstore

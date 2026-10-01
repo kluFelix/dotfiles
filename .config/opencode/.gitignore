@@ -1,0 +1,7 @@
+# opencode/npm regenerate these on demand. Stowing them would collide with the
+# real npm-owned files inside ~/.config/opencode, and node_modules is ~40 MB of
+# third-party code that must never end up in this public repo.
+node_modules
+package.json
+package-lock.json
+bun.lock

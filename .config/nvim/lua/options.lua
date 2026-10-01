@@ -15,6 +15,7 @@ local ft_options = {
     nix = { shiftwidth = 2, tabstop = 2, softtabstop = 2 },
     lua = { shiftwidth = 2, tabstop = 2, softtabstop = 2 },
     json = { shiftwidth = 2, tabstop = 2, softtabstop = 2 },
+    htmlangular = { shiftwidth = 2, tabstop = 2, softtabstop = 2 },
 }
 
 vim.opt.smartindent = true
@@ -98,6 +99,10 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- UndoTree --
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+
+-- Dadbod UI (database client) --
+vim.keymap.set("n", "<leader>db", "<cmd>DBUI<CR>", { desc = "Toggle DBUI" })
+vim.keymap.set("n", "<leader>df", "<cmd>DBUIFindBuffer<CR>", { desc = "DBUI: find buffer" })
 
 
 -- cmp Code Completion 

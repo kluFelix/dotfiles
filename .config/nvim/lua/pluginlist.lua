@@ -9,7 +9,16 @@ return {
             for _, group in ipairs({ "Normal", "NormalFloat", "NormalNC", "SignColumn", "MsgArea" }) do
                 vim.api.nvim_set_hl(0, group, { bg = "none" })
             end
+            -- Theme's StatusLineNC fg (#3e3e3e) is grey-on-grey and unreadable
+            vim.api.nvim_set_hl(0, "StatusLineNC", { fg = "#9e9e9e" })
         end
+    },
+
+    -- Treesitter
+    {
+        'nvim-treesitter/nvim-treesitter',
+        lazy = false,
+        build = ':TSUpdate'
     },
 
     -- lazydev configures LuaLS for editing Neovim config
@@ -51,6 +60,14 @@ return {
 
     -- Git Signs (diff indicators)
     "lewis6991/gitsigns.nvim",
+
+    -- Database client (dadbod + UI + completion)
+    {
+        "tpope/vim-dadbod",
+        "kristijanhusak/vim-dadbod-completion",
+        "kristijanhusak/vim-dadbod-ui",
+        lazy = false,
+    },
 
     -- Vim Be Good
     "ThePrimeagen/vim-be-good",
