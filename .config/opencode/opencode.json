@@ -80,13 +80,6 @@
         "FIRECRAWL_API_URL": "http://192.168.112.200:3002"
       }
     },
-    "Mermaid": {
-      "type": "local",
-      "command": ["nix", "shell", "nixpkgs#nodejs", "--command", "npx", "-y", "mcp-mermaid"],
-      "enabled": false,
-      "environment": {
-      }
-    },
     "NixOS": {
       "type": "local",
       "command": ["nix", "run", "github:utensils/mcp-nixos", "--"],
