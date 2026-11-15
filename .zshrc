@@ -54,6 +54,23 @@ fi
 alias ll='ls -lah --color=auto'
 export EDITOR=nvim
 
+# openshell: run things inside the sandbox, in *this* directory. Optional: without
+# openshell installed the function is not defined, so nothing shadows a real command.
+#   sbx               -> shell in the sandbox, at $PWD
+#   sbx pi            -> straight into a harness (also: sbx opencode, sbx rg, sbx -- git status)
+#   SBX=other sbx ... -> pick a different sandbox (default: dev-sandbox, see build-sandbox.sh)
+if command -v openshell >/dev/null; then
+    sbx() {
+        local name="${SBX:-dev-sandbox}"
+
+        if (( $# == 0 )); then
+            openshell sandbox exec "$name" --workdir "$PWD" -- bash -l
+        else
+            openshell sandbox exec "$name" --workdir "$PWD" -- "$@"
+        fi
+    }
+fi
+
 # must be sourced last
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[command]=fg=green
