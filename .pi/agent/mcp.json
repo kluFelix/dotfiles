@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "firecrawl": {
+      "command": "sh",
+      "args": ["-c", "if [ ! -w \"$HOME\" ]; then npm_config_cache=\"$PWD/.npm-cache\"; export npm_config_cache; fi; if command -v npx >/dev/null 2>&1; then exec npx -y firecrawl-mcp@3.33.2; else exec nix shell nixpkgs#nodejs --command npx -y firecrawl-mcp@3.33.2; fi"],
+      "env": {
+        "FIRECRAWL_API_URL": "http://192.168.112.200:3002"
+      },
+      "timeout": 300,
+      "description": "Self-hosted Firecrawl: web search, scrape and crawl pages as markdown."
+    }
+  }
+}

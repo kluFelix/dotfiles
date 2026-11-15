@@ -1,0 +1,12 @@
+{
+  "lastChangelogVersion": "1.5.0",
+  "defaultModel": "llama-swap/Qwen3.8-27b",
+  "theme": "dark",
+  "markdown": {
+    "mermaid": "streaming"
+  },
+  "hideThinkingBlock": true,
+  "externalEditor": "vim",
+  "fullscreenWheelScrollLines": 10,
+  "packages": ["npm:pi-advisor-flow"]
+}
