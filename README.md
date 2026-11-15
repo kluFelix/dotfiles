@@ -125,11 +125,8 @@ Plugins and skills live in `plugins/` and `skills/` and are picked up automatica
 
 ## opencode tmux: idle-agent notifications
 
-When you run opencode inside tmux, `plugins/tmux-notify.js` flags the current window when the session **goes idle**, hits an **error**, or **asks for permission**:
+When you run opencode inside tmux, `plugins/tmux-notify/` flags the window of a session that **goes idle**, hits an **error**, or **asks for permission**: a red `●` in the tab plus a 5s toast, cleared when you switch back to that window (`window-status-format` and the `after-select-window` / `pane-focus-in` hooks in `tmux.conf`).
 
-- the tab title shows a red `●` and a `display-message` toast appears for 5s (`window-status-format` in `tmux.conf`);
-- the flag (`@agent-wait`) clears automatically once you switch back to that window (`after-select-window` / `pane-focus-in` hooks).
+Only this terminal's own sessions can set or clear the flag. The logic runs in the TUI process (`tui.js`) so `TMUX_PANE` is the right pane; `index.js` is an empty server part that just makes the plugin discoverable.
 
-Events are filtered to the pane's own session (tracked via the `chat.message` hook), so unrelated/background sessions can't set or clear the flag.
-
-Nothing to configure — it activates automatically whenever opencode runs inside a tmux pane.
+Nothing to configure — it activates whenever opencode runs inside a tmux pane.
