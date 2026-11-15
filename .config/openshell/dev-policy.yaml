@@ -1,0 +1,111 @@
+version: 1
+
+# Generated input, not the policy itself: every path below starts with the
+# home-directory token that build-sandbox.sh replaces with the real home directory,
+# and only the result — dev-policy.rendered.yaml (git- *and* Stow-ignored) — is what
+# gets passed to `--policy`. So the tracked file stays valid on any account or
+# machine, and editing it (rather than the render) is the right thing to do.
+#
+# Never hand this file to `openshell policy set`: the token would be sealed as a
+# literal path and nothing here would ever match again.
+#
+# The mount list in that script and the paths here must name the same set of paths —
+# the script compares the two and refuses to build if they differ.
+
+# Trusting Landlock as the only filesystem boundary -> fail closed instead of the default fail-open
+landlock:
+  compatibility: hard_requirement
+
+filesystem_policy:
+  include_workdir: true                 # /sandbox = pi agent dir, opencode db/cache, npm cache
+  read_only:
+    - @HOME@/dotfiles
+    - @HOME@/.gitconfig
+    - @HOME@/.gitconfig.local
+    - @HOME@/.config/opencode/opencode.json
+    - @HOME@/.pi/agent/models.json
+    - @HOME@/.pi/agent/settings.json
+    - @HOME@/.pi/agent/advisor.json
+    - @HOME@/.pi/agent/mcp.json
+  # Your project roots. Add yours here AND in build-sandbox.sh's mount list (the
+  # script refuses to build when the two name different paths, and checks that each
+  # one exists on the host).
+  read_write:
+    - @HOME@/dev
+
+network_policies:
+  # The LAN box that runs llama-swap (11434, what opencode.json and
+  # ~/.pi/agent/models.json point at) and the self-hosted Firecrawl MCP backend
+  # (3002). One host, so one entry: openshell matches per host.
+  lan_llm_host:
+    endpoints:
+      - host: 192.168.112.200
+        ports: [11434, 3002]
+        allowed_ips: ["192.168.112.200/32"]
+        protocol: rest
+        access: full
+        enforcement: enforce
+    binaries:
+      - path: /usr/local/bin/node                                         # pi is dist/bundle/cli.js
+      - path: /usr/local/lib/node_modules/@opencode/cli/bin/opencode.exe
+
+  npm_registry:
+    endpoints:
+      - host: registry.npmjs.org
+        port: 443
+        protocol: rest
+        access: read-only
+        allow_encoded_slash: true
+        enforcement: enforce
+    binaries:
+      - path: /usr/local/bin/node
+
+  # pip: simple index + wheel host. Debian's python3-venv ships pip inside the
+  # venv, so this is the only way packages can be installed at all.
+  pypi_registry:
+    endpoints:
+      - { host: "pypi.org",               port: 443, protocol: rest, access: read-only, enforcement: enforce }
+      - { host: "**.pypi.org",            port: 443, protocol: rest, access: read-only, enforcement: enforce }
+      - { host: "files.pythonhosted.org", port: 443, protocol: rest, access: read-only, enforcement: enforce }
+      - { host: "**.pythonhosted.org",    port: 443, protocol: rest, access: read-only, enforcement: enforce }
+    binaries:
+      - path: /usr/bin/python3            # a venv's bin/python3 is a symlink to this inode
+
+  # github.com: reads + git pull/clone, but no push. This repo lives here, so it is
+  # also the way the sandbox updates itself.
+  github_fetch:
+    endpoints:
+      - host: "github.com"
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: GET,  path: "/**" }                  # keep research/docs reads working
+          - allow: { method: GET,  path: "/**/info/refs*" }       # git discovery (subsumed, kept for intent)
+          - allow: { method: POST, path: "/**/git-upload-pack" }  # the fetch itself
+        deny_rules:
+          - { method: "*", path: "/**/git-receive-pack" }
+          - { method: "*", path: "/**/git-receive-pack/**" }
+    binaries:
+      - path: /usr/bin/git
+      - path: /usr/lib/git-core/git-remote-https
+
+  # Set once, read-only, never babysat. Approvals in `openshell term` cover the rest.
+  research_docs:
+    endpoints:
+      - { host: "githubusercontent.com",    port: 443, protocol: rest, access: read-only, enforcement: enforce }
+      - { host: "**.githubusercontent.com", port: 443, protocol: rest, access: read-only, enforcement: enforce }
+      - { host: "github.com",               port: 443, protocol: rest, access: read-only, enforcement: enforce }
+      - { host: "**.github.com",            port: 443, protocol: rest, access: read-only, enforcement: enforce }
+      - { host: "pi.dev",                   port: 443, protocol: rest, access: read-only, enforcement: enforce }
+      - { host: "**.pi.dev",                port: 443, protocol: rest, access: read-only, enforcement: enforce }
+    binaries:
+      - path: /usr/local/bin/node
+      - path: /usr/local/lib/node_modules/@opencode/cli/bin/opencode.exe
+      - path: /usr/bin/curl
+
+  curl_for_development:
+    endpoints:
+      - { host: "**.githubusercontent.com", port: 443, protocol: rest, access: read-only, enforcement: enforce }
+    binaries:
+      - path: /usr/bin/curl

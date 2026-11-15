@@ -1,0 +1,41 @@
+FROM node:24.19.0-bookworm-slim
+
+ARG PI_VERSION=1.5.0
+ARG OPENCODE_VERSION=2.2.5
+# Home directory the /sandbox symlinks below point into
+ARG HOST_HOME
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Checked in its own layer, ahead of the multi-minute apt/npm layers: a manual build
+# without --build-arg should fail in seconds
+RUN test -n "$HOST_HOME" || { echo "HOST_HOME build-arg is required: run through build-sandbox.sh" >&2; exit 1; }
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+         bash ca-certificates curl fd-find git jq less openssh-client procps ripgrep \
+         iproute2 netcat-openbsd \
+         vim \
+         python3 python3-venv python-is-python3 \
+    && ln -s /usr/bin/fdfind /usr/local/bin/fd \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g --ignore-scripts "@earendil-works/pi-coding-agent@${PI_VERSION}"
+RUN npm install -g "@opencode/cli@${OPENCODE_VERSION}"
+
+# One MCP file for both contexts: the sandbox reads the same ~/.pi/agent/mcp.json the
+# host does, so there is no second copy to keep in sync.
+RUN mkdir -p /sandbox/.config/opencode /sandbox/.pi/agent \
+ && ln -s "$HOST_HOME/.config/opencode/opencode.json" /sandbox/.config/opencode/opencode.json \
+ && ln -s "$HOST_HOME/.pi/agent/models.json"          /sandbox/.pi/agent/models.json \
+ && ln -s "$HOST_HOME/.pi/agent/settings.json"        /sandbox/.pi/agent/settings.json \
+ && ln -s "$HOST_HOME/.pi/agent/mcp.json"             /sandbox/.pi/agent/mcp.json \
+ && ln -s "$HOST_HOME/.pi/agent/advisor.json"         /sandbox/.pi/agent/advisor.json \
+ && ln -s "$HOST_HOME/.gitconfig"                     /sandbox/.gitconfig \
+ && ln -s "$HOST_HOME/.gitconfig.local"               /sandbox/.gitconfig.local \
+ && chown -R node:node /sandbox
+
+# directory created by docker -> opencode in sandbox will not have permissions to user directory otherwise
+RUN mkdir -p /tmp/opencode && chown node:node /tmp/opencode && chmod 0755 /tmp/opencode
+
+USER node
+WORKDIR /sandbox

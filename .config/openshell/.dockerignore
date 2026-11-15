@@ -1,0 +1,5 @@
+# docker build uses this directory as its context, and build-sandbox.sh writes the
+# rendered policy here before it builds. The image needs neither: it gets HOST_HOME
+# as a build-arg. Keeping the render out of the context also means it is not shipped
+# to a remote/shared builder just to be ignored.
+dev-policy.rendered.yaml

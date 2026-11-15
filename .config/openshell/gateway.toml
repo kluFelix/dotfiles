@@ -1,0 +1,12 @@
+[openshell]
+version = 2
+
+[openshell.gateway]
+compute_driver = "docker"
+
+[openshell.drivers.docker]
+allow_driver_config = true
+enable_bind_mounts = true        # allows binding the directories you want to work with
+
+[openshell.drivers.docker.resource_admission]
+enabled = false                  # required for bind mounts

@@ -1,12 +1,12 @@
 # Dotfiles
 
-Personal configuration for my development environment: **NeoVim**, **zsh**, **tmux**, **git**, **ssh**, **opencode**, plus terminal ([alacritty](#terminals)) and [PrusaSlicer](#3d-printing) profiles.
+Personal configuration for my development environment: **NeoVim**, **zsh**, **tmux**, **git**, **ssh**, **opencode**, **pi** and **openshell**, plus terminal ([alacritty](#terminals)) and [PrusaSlicer](#3d-printing) profiles.
 
 > Root-level dotfiles link straight into `$HOME`; everything under `.config/` links into `~/.config/`.
 
 ## Installation
 
-Deployment is handled with [GNU Stow](https://www.gnu.org/software/stow/). Stow symlinks each config into place and **merges** into existing directories, so it safely layers `.config/{nvim,tmux,opencode,alacritty,foot,PrusaSlicer}` into a `~/.config` that already holds other apps. Non-config repo files (`.git`, `README.md`, `.gitignore`), the git-tracked-but-not-deployed `AGENTS.md`, and generated `node_modules/` trees (opencode's plugin deps — they would collide with the copies npm already installed in `~/.config/opencode`) are skipped via the repo-root `.stow-local-ignore`. Stow uses that file *instead of* its built-in defaults, so it re-lists them.
+Deployment is handled with [GNU Stow](https://www.gnu.org/software/stow/). Stow symlinks each config into place and **merges** into existing directories, so it safely layers `.config/{nvim,tmux,opencode,alacritty,foot,PrusaSlicer,openshell}` into a `~/.config` that already holds other apps. Non-config repo files (`.git`, `README.md`, `.gitignore`), the git-tracked-but-not-deployed `AGENTS.md`, generated `node_modules/` trees (opencode's plugin deps — they would collide with the copies npm already installed in `~/.config/opencode`) and the generated `dev-policy.rendered.yaml` (openshell's rendered sandbox policy, see [OpenShell](#openshell)) are skipped via the repo-root `.stow-local-ignore`. Stow uses that file *instead of* its built-in defaults, so it re-lists them.
 
 ```sh
 cd ~/dotfiles   # wherever you cloned the repo
@@ -30,19 +30,23 @@ Re-running is safe. To undo, run `stow -D .` (add `-n -v2` for a dry run first).
 | `ripgrep`                 | Telescope live-grep                                                                                                 |
 | `direnv`                  | the prompt reacts to `.envrc`; optional, guarded                                                                    |
 | language servers          | see [NeoVim → LSP](#lsp)                                                                                            |
-| `node` / `npx`            | opencode plugins and the npx-backed MCP servers                                                                     |
+| `node` / `npx`            | opencode plugins, the npx-backed MCP servers and the pi install                                                                      |
+| `openshell`               | sandboxed agent execution, see [OpenShell](#openshell)                                                                              |
+| `docker`                  | building the sandbox image (see [OpenShell](#openshell))                                                                            |
 
-Anything not installed is skipped rather than erroring: optional integrations (`direnv`, `ng`, `wt`, `nvm`, `cargo`, `go`) are behind `command -v` guards in `.zshrc`, so the same file works on a bare machine.
+Anything not installed is skipped rather than erroring: optional integrations (`direnv`, and openshell's `sbx` function) are guarded in `.zshrc`, so the same file works on a bare machine.
 
 ## Personalize before use
 
 **Git identity and credentials**  
-The tracked `.gitconfig` holds only `core` + aliases. Your email/name, your credential helper (I use `cache --timeout=86400` on a machine with no keychain; the example ships commented `wincred`/`osxkeychain` variants) and any per-host settings such as an internal CA bundle belong in `~/.gitconfig.local`, which is git-ignored — keep it `chmod 600`. Copy `.gitconfig.local.example` to `~/.gitconfig.local` and edit it, so nobody else inherits your cert store or credential helper.
+The tracked `.gitconfig` holds only `core`, `alias` and `init`. Your email/name, your credential helper (I use `cache --timeout=86400` on a machine with no keychain; the example ships commented `wincred`/`osxkeychain` variants) and any per-host settings such as an internal CA bundle belong in `~/.gitconfig.local`, which is git-ignored — keep it `chmod 600`. Copy `.gitconfig.local.example` to `~/.gitconfig.local` and edit it, so nobody else inherits your cert store or credential helper.
 
 > `~/.gitconfig` must be stow's **symlink**, not a leftover real file, or `stow .` aborts (stow never overwrites files it doesn't own). Note the CLI only prints included values with `git config --global --list --includes`; ordinary commands like `git commit` pick them up regardless.
 
 **Nothing machine-specific goes in this repo**  
 Hosts, IP addresses, tokens and printer/API keys belong in the per-machine `~/.gitconfig.local` / `~/.ssh/config.d/` style overrides, not in tracked files. This repo is public: assume every line is readable.
+
+> The one deliberate exception: the inference and scraping endpoints in `opencode.json`, `.pi/agent/models.json` and `.config/openshell/dev-policy.yaml` name the LAN box that serves the models. They are per-machine by nature — change them, don't copy them.
 
 ## SSH
 
@@ -134,3 +138,46 @@ When you run opencode inside tmux, `plugins/tmux-notify/` flags the window of a 
 Only this terminal's own sessions can set or clear the flag. The logic runs in the TUI process (`tui.js`) so `TMUX_PANE` is the right pane; `index.js` is an empty server part that just makes the plugin discoverable.
 
 Nothing to configure — it activates whenever opencode runs inside a tmux pane.
+
+## pi
+
+[pi](https://pi.dev) is a second terminal coding agent, pointed at the same on-prem models as opencode. Its config is the root-level `.pi/agent/` directory → `~/.pi/agent/`; install the CLI itself with `npm i -g @earendil-works/pi-coding-agent`.
+
+| File | What it does |
+|------|--------------|
+| `models.json` | the llama-swap endpoint and both models, mirrored from `opencode.json` — `llama-swap/Qwen3.8-27b` is the default model |
+| `settings.json` | theme, mermaid rendering, and the `pi-advisor-flow` package |
+| `advisor.json` | a second model reviews the agent's work: `llama-swap/GLM-5.3-Flash`, the chat model. GLM has no reasoning variant in this setup — point `advisor` at the Qwen model if you want the advisor to reason. |
+| `mcp.json` | the Firecrawl entry from `opencode.json` in pi's format (`environment` → `env`, command array → `command`/`args`) |
+
+The sandbox reads this same file, so there is no second copy to keep in sync. Check connections with `pi mcp list`, or `/mcp` inside a session.
+
+## OpenShell
+
+`openshell` runs an agent in a Landlock-sealed Docker sandbox instead of on the host, so it can only reach what this directory says it may.
+
+| File | What it does |
+|------|--------------|
+| `gateway.toml` | gateway config: docker driver with bind mounts (`resource_admission` off is required for bind mounts) |
+| `Dockerfile.dev` | the image: `node`-slim + pi + opencode, with `/sandbox` symlinks to the host config files |
+| `dev-policy.yaml` | the policy: what is read-only, what is writable, which hosts are reachable |
+| `build-sandbox.sh` | renders the policy, builds the image, recreates the sandbox |
+
+```sh
+~/.config/openshell/build-sandbox.sh   # build + recreate (default sandbox name: dev-sandbox)
+sbx                                    # login shell in the sandbox, at $PWD
+sbx pi                                 # run it there; also: sbx opencode, sbx -- git status
+SBX=other sbx                          # a different sandbox
+```
+
+Defaults, in short:
+
+- **read-only** — `~/dotfiles`, `~/.gitconfig` + `~/.gitconfig.local`, `opencode.json` and the four `~/.pi/agent/*.json` files. The image symlinks them into `/sandbox`, so an agent can read its own config but cannot rewrite your dotfiles.
+- **read-write** — `~/dev`, plus whatever directory you run `sbx` from.
+- **network** — the llama-swap/Firecrawl box on the LAN, npm and PyPI (read-only), `github.com` for research and `git pull`. `git-receive-pack` is denied, so a push cannot leave the sandbox.
+
+Three things to know before editing:
+
+1. `dev-policy.yaml` is a *template*: paths are spelled `@HOME@/...` and `build-sandbox.sh` substitutes `$HOME` into `dev-policy.rendered.yaml` (git- and Stow-ignored, never hand-edited). Never hand the template itself to `openshell policy set` — the token would be sealed as a literal path.
+2. That file's path list and the mount list in `build-sandbox.sh` must name the same paths, and each must exist on the host. The script checks both (plus that every `/sandbox` symlink has a mount behind it) and refuses to build otherwise — so add your own project directories to **both**.
+3. Landlock seals at exec: policy edits only apply to a freshly recreated sandbox, and `cat dev-policy.rendered.yaml` shows exactly what was applied.
