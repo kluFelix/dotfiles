@@ -2,50 +2,59 @@
   "$schema": "https://opencode.ai/config.json",
 
   "share": "disabled",
-  "server": {
-    "hostname": "127.0.0.1",
-    "port": 4096
-  },
-  "experimental": {
-    "openTelemetry": false
-  },
-  "disabled_providers": ["exa", "opencode"],
 
   "default_agent": "plan",
-  "provider": {
+
+  "policies": [
+    { "action": "provider.use", "resource": "opencode", "effect": "deny" },
+    { "action": "provider.use", "resource": "exa", "effect": "deny" },
+    { "action": "tool.use", "resource": "question:*", "effect": "deny" },
+    { "action": "tool.use", "resource": "webfetch:*", "effect": "deny" }
+  ],
+
+  "permissions": [
+    { "action": "external_directory", "resource": "*", "effect": "ask" },
+    { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" },
+    { "action": "shell", "resource": "*", "effect": "allow" },
+    { "action": "edit", "resource": "*", "effect": "allow" },
+    { "action": "skill", "resource": "caveman", "effect": "allow" }
+  ],
+
+  "providers": {
     "llama swap": {
-      "npm": "@ai-sdk/openai-compatible",
       "name": "llama swap (local)",
-      "options": {
+      "package": "aisdk:@ai-sdk/openai-compatible",
+      "settings": {
         "baseURL": "http://192.168.112.200:11434/v1"
       },
       "models": {
         "Qwen3.8-27b": {
           "name": "Qwen3.8 27b",
-          "modalities": {
+          "capabilities": {
+            "tools": true,
             "input": ["text", "image"],
             "output": ["text"]
           },
-          "variants": {
-            "xhigh": {
-              "name": "Max Reasoning (xhigh)",
+          "variants": [
+            {
+              "id": "xhigh",
               "body": {
                 "reasoning_effort": "xhigh"
               }
             },
-            "med": {
-              "name": "Balanced (medium)",
+            {
+              "id": "med",
               "body": {
                 "reasoning_effort": "medium"
               }
             },
-            "low": {
-              "name": "Fast (low)",
+            {
+              "id": "low",
               "body": {
                 "reasoning_effort": "low"
               }
             }
-          },
+          ],
           "limit": {
             "context": 262144,
             "output": 32768
@@ -54,7 +63,8 @@
 
         "GLM-5.3-Flash": {
           "name": "GLM 5.3 Flash",
-          "modalities": {
+          "capabilities": {
+            "tools": true,
             "input": ["text", "image"],
             "output": ["text"]
           },
@@ -72,55 +82,39 @@
   },
 
   "mcp": {
-    "Firecrawl": {
-      "type": "local",
-      "command": ["nix", "shell", "nixpkgs#nodejs", "--command", "npx", "-y", "firecrawl-mcp"],
-      "enabled": true,
-      "environment": {
-        "FIRECRAWL_API_URL": "http://192.168.112.200:3002"
-      }
-    },
-    "NixOS": {
-      "type": "local",
-      "command": ["nix", "run", "github:utensils/mcp-nixos", "--"],
-      "enabled": false,
-      "environment": {
+    "servers": {
+      "Firecrawl": {
+        "type": "local",
+        "command": ["sh", "-c", "if [ ! -w \"$HOME\" ]; then npm_config_cache=\"$PWD/.npm-cache\"; export npm_config_cache; fi; if command -v npx >/dev/null 2>&1; then exec npx -y firecrawl-mcp@3.33.2; else exec nix shell nixpkgs#nodejs --command npx -y firecrawl-mcp@3.33.2; fi"],
+        "environment": {
+          "FIRECRAWL_API_URL": "http://192.168.112.200:3002"
+        }
+      },
+      "NixOS": {
+        "type": "local",
+        "command": ["nix", "run", "github:utensils/mcp-nixos", "--"],
+        "disabled": true,
+        "environment": {
+        }
       }
     }
-  },
-  "permission": {
-    "edit": "allow",
-    "bash": "allow",
-    "webfetch": "deny",
-    "skill": {
-      "caveman": "allow"
-    }
-  },
-  "tools": {
-    "write": true,
-    "bash": true,
-    "webfetch": false,
-    "question": false,
-    "list": false,
-    "skill": true,
-    "todowrite": false,
-    "todoread": false
   },
 
-  "agent": {
+  "agents": {
     "general": {
       "mode": "subagent",
-      "tools": {
-        "Firecrawl_*": true,
-        "skill": true
-      }
+      "permissions": [
+        { "action": "skill", "resource": "*", "effect": "allow" },
+        { "action": "Firecrawl_*", "resource": "*", "effect": "allow" }
+      ]
     },
     "explore": {
       "mode": "subagent",
-      "tools": {
-        "Firecrawl_*": true,
-        "skill": true
-      }
+      "permissions": [
+        { "action": "skill", "resource": "*", "effect": "allow" },
+        { "action": "Firecrawl_*", "resource": "*", "effect": "allow" },
+        { "action": "execute", "resource": "*", "effect": "allow" }
+      ]
     }
   }
 }

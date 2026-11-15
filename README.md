@@ -121,7 +121,11 @@ For NeoVim's LSP settings to work you actually need the necessary language serve
 
 ## opencode
 
-Plugins and skills live in `plugins/` and `skills/` and are picked up automatically. Providers and MCP servers are configured in `opencode.json` and are the one part of this repo that is inherently per-machine — keep endpoints and keys out of it.
+Plugins and skills live in `plugins/` and `skills/` and are picked up automatically. Providers and MCP servers are configured in `opencode.json`, which is inherently per-machine — keep keys out of it and expect to edit the endpoints (see [Personalize](#personalize-before-use)). `webfetch` and the question tool are refused by `policies`, not `permissions`, so no repository's own `opencode.json` can turn them back on.
+
+### Portable MCP launcher
+
+`npx`-installed MCP servers are started via `sh -c` so one config works everywhere: NixOS has no node on `PATH` (it comes from `nix shell nixpkgs#nodejs`), Arch and the sandbox do, and the sandbox's `$HOME` may be unwritable. Both branches `exec`, so the client supervises the server directly — reuse the line, pin included.
 
 ## opencode tmux: idle-agent notifications
 
