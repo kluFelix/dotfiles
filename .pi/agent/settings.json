@@ -7,6 +7,5 @@
   },
   "hideThinkingBlock": true,
   "externalEditor": "vim",
-  "fullscreenWheelScrollLines": 10,
-  "packages": ["npm:pi-advisor-flow"]
+  "fullscreenWheelScrollLines": 10
 }

@@ -1,8 +1,0 @@
-{
-  "advisor": "llama-swap/GLM-5.3-Flash",
-  "alwaysOn": true,
-  "advisorEffort": "xhigh",
-  "contextMaxChars": 80000,
-  "advisorGitContext": "full",
-  "advisorGitContextMaxChars": 40000
-}

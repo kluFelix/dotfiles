@@ -56,7 +56,6 @@ mounts_json=$(cat <<'JSON'
   { "type": "bind", "source": "@HOME@/.config/opencode/opencode.json",     "target": "@HOME@/.config/opencode/opencode.json",     "read_only": true },
   { "type": "bind", "source": "@HOME@/.pi/agent/models.json",              "target": "@HOME@/.pi/agent/models.json",              "read_only": true },
   { "type": "bind", "source": "@HOME@/.pi/agent/settings.json",            "target": "@HOME@/.pi/agent/settings.json",            "read_only": true },
-  { "type": "bind", "source": "@HOME@/.pi/agent/advisor.json",             "target": "@HOME@/.pi/agent/advisor.json",             "read_only": true },
   { "type": "bind", "source": "@HOME@/.pi/agent/mcp.json",                 "target": "@HOME@/.pi/agent/mcp.json",                 "read_only": true }
 ] } }
 JSON

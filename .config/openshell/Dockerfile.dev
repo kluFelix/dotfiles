@@ -29,7 +29,6 @@ RUN mkdir -p /sandbox/.config/opencode /sandbox/.pi/agent \
  && ln -s "$HOST_HOME/.pi/agent/models.json"          /sandbox/.pi/agent/models.json \
  && ln -s "$HOST_HOME/.pi/agent/settings.json"        /sandbox/.pi/agent/settings.json \
  && ln -s "$HOST_HOME/.pi/agent/mcp.json"             /sandbox/.pi/agent/mcp.json \
- && ln -s "$HOST_HOME/.pi/agent/advisor.json"         /sandbox/.pi/agent/advisor.json \
  && ln -s "$HOST_HOME/.gitconfig"                     /sandbox/.gitconfig \
  && ln -s "$HOST_HOME/.gitconfig.local"               /sandbox/.gitconfig.local \
  && chown -R node:node /sandbox

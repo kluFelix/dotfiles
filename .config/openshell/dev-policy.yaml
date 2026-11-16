@@ -25,7 +25,6 @@ filesystem_policy:
     - @HOME@/.config/opencode/opencode.json
     - @HOME@/.pi/agent/models.json
     - @HOME@/.pi/agent/settings.json
-    - @HOME@/.pi/agent/advisor.json
     - @HOME@/.pi/agent/mcp.json
   # Your project roots. Add yours here AND in build-sandbox.sh's mount list (the
   # script refuses to build when the two name different paths, and checks that each
