@@ -31,6 +31,8 @@ filesystem_policy:
   # one exists on the host).
   read_write:
     - @HOME@/dev
+    - @HOME@/sbx
+    - @HOME@/.config/nixos
 
 network_policies:
   # The LAN box that runs llama-swap (11434, what opencode.json and

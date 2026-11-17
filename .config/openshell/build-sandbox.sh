@@ -51,9 +51,11 @@ mounts_json=$(cat <<'JSON'
 { "docker": { "mounts": [
   { "type": "bind", "source": "@HOME@/dotfiles",                           "target": "@HOME@/dotfiles",                           "read_only": true },
   { "type": "bind", "source": "@HOME@/dev",                                "target": "@HOME@/dev",                                "read_only": false },
+  { "type": "bind", "source": "@HOME@/sbx",                                "target": "@HOME@/sbx",                                "read_only": false },
   { "type": "bind", "source": "@HOME@/.gitconfig",                         "target": "@HOME@/.gitconfig",                         "read_only": true },
   { "type": "bind", "source": "@HOME@/.gitconfig.local",                   "target": "@HOME@/.gitconfig.local",                   "read_only": true },
   { "type": "bind", "source": "@HOME@/.config/opencode/opencode.json",     "target": "@HOME@/.config/opencode/opencode.json",     "read_only": true },
+  { "type": "bind", "source": "@HOME@/.config/nixos",                      "target": "@HOME@/.config/nixos",                      "read_only": false },
   { "type": "bind", "source": "@HOME@/.pi/agent/models.json",              "target": "@HOME@/.pi/agent/models.json",              "read_only": true },
   { "type": "bind", "source": "@HOME@/.pi/agent/settings.json",            "target": "@HOME@/.pi/agent/settings.json",            "read_only": true },
   { "type": "bind", "source": "@HOME@/.pi/agent/mcp.json",                 "target": "@HOME@/.pi/agent/mcp.json",                 "read_only": true }
