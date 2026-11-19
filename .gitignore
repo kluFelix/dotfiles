@@ -28,3 +28,6 @@ node_modules
 # OpenShell gateway settings
 .config/openshell/active_gateway
 .config/openshell/gateways/
+
+# opencode's local auth credential (plaintext password), written by opencode itself
+.config/opencode/service.json
